@@ -1,0 +1,12 @@
+Router and ActivatedRoute are not the same thing.
+
+-------
+Router is for initiating navigation -----> use when code wants to change the URL
+    this.router.navigate(['/tasks']);
+Think: I want to send the user somewhere else
+
+ActivatedRoute is used to read information about the current route:
+    - What route you're currently on
+    - What route params exist
+    - What query params exist
+    - What data resolvers provided
