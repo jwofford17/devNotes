@@ -1,0 +1,3 @@
+Snapshot vs. Observable
+    - Snapshot: Give me the ID right now. I don't care if it changes later.
+    - Observable (pipe): Watch the ID. Every time it changes, run this logic and give me the new data

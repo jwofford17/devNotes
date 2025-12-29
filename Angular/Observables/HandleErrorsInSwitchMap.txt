@@ -1,0 +1,6 @@
+- Add a catchError inside switchMap. Why:
+    - this.activateRoute.paramMap is the "Outer" stream. If an error reaches this level, the pipe is destroyed.
+    - The inner steam is this.caseService.getDetailsForCase(id)
+- By putting catchError inside the switchMap, we "swallow" the error locally.
+    - Inner stream fails, but it returns a valid (null) value to the outer stream.
+        - This keeps the outer stream healthy so it can listen for the next URL change.

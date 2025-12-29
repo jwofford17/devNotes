@@ -1,10 +1,17 @@
-Router and ActivatedRoute are not the same thing.
+******    R O U T E R   ********
 
--------
 Router is for initiating navigation -----> use when code wants to change the URL
     this.router.navigate(['/tasks']);
 Think: I want to send the user somewhere else
 
+router.navigate() returns a Promise:
+    navigate(commands: any[], extras?): Promise<boolean>
+
+When you receive warning about not having a .then() it is essentially saying:
+    You called a Promise-returning function and didn't handle the Promise
+
+
+******   A C T I V A T E D    R O U T E   ********
 ActivatedRoute is used to read information about the current route:
     - What route you're currently on
     - What route params exist

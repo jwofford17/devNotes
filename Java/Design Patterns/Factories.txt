@@ -1,0 +1,5 @@
+Factories are best for:
+    - Encapsulating decision logic
+    - Choosing how to build something
+    - Potentially creating different concrete shapes
+    - Enforcing invariants

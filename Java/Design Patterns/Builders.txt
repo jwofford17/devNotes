@@ -1,0 +1,25 @@
+Builder pattern is a way to construct an object step by step, usually in a fluent, readable way.
+
+PerformActionDTO dto = PerformActionDTO.builder()
+    .taskId(taskId)
+    .actionId(actionId)
+    .comment(comment)
+    .force(false)
+    .build()
+
+- instead of -
+PerformActionDTO dto = new PerformActionDTO();
+dto.setTaskId(taskId);
+dto.setActionId(actionId);
+dto.setComment(comment);
+
+
+Builders are useful when:
+    - There are many fields, especially when there are optional fields
+        Constructors get unreadable fast
+    - Constructing complex value objects
+        - many optional fields
+        - often immutable
+        - construction is mostly fill in the fields
+
+All about data assembly

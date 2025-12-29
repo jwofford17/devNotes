@@ -1,0 +1,42 @@
+Two ways of injecting dependencies:
+
+1.) Constructor Injection
+
+    @Service
+    public class ExampleClass() {
+
+        private final InjectedService injectedService;
+
+        public ExampleClass(InjectedService aInjectedService) {
+            this.injectedService = aInjectedService;
+        }
+
+
+    - Declare the dependencies as final fields and provide a constructor
+
+    Benefits:
+        - Immutability
+            - Once the dependent bean as started, the injected bean can never be swapped out or set to null
+        - Required Dependencies: You cannot instantiate the class without providing the dependency.
+            This prevents NullPointerException at runtime because the app won't even start if a bean is missing
+        - Easier to write unit tests
+        - Circular reference detection
+    Drawbacks:
+        - More boilerplate
+
+2.) Field Injection (Leveraging @Resource)
+
+    @Service
+    public class ExampleClass() {
+
+        @Resource
+        private final InjectedService injectedService;
+    }
+
+
+    - Considered a legacy pattern or "quick and dirty" shortcut
+    - Cannot use "final" keyword
+        - Spring calls the default constructor (empty) to create the object
+        - After the object exists, Spring uses REFLECTION to "reach in" and set the private field
+            - If the field is marked final, the JVM will not allow Spring to change that value after the constructor has finished
+    - Less boilerplate

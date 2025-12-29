@@ -1,0 +1,46 @@
+Generally - okay to use this.activateRoute.snapshot.paramMap
+
+But if we are reloading the component based on a URL change when we are already in the component, Angular won't reload
+the component!
+    - This is because ...snapshot.paramMap is a static object. By removing 'snapshot' we can leverage an Observable.
+
+Leverage the functions available in an Observable!
+this.caseDetailsObs = this.activateRoute.paramMap
+    - Every time the URL changes, this Observable 'emits' a new value.
+.pipe(...)
+    - A container for the operations you want to perform on the data as it flows through the pipe.
+map(...)
+    - The translator. The paramMap emits a complex object. We use map to "transform" that object into something
+      we actually want: the numeric Id.
+        - Grab the string "id"
+        - Convert it to a number
+        - Update local this.caseId variable
+        - (!IMPORTANT!) Return the ID so it can flow to the next step
+switchMap(...)
+    - The switcher. The most important part of the logic.
+    - Takes the ID from the previous step and "switches" from the Route Observable to the Service Observable
+    - Not using map here because caseDetailsObs would become an Observable or an Observable.
+        - switchMap "flattens" so caseDetailsObs just emits GetCaseDetailsDTO directly
+
+Example ngOnInit to set an observable to the paramMap observable 'switchMapped' to the actual service.
+ngOnInit() {
+    this.caseDetailsObs = this.activatedRoute.paramMap.pipe(
+        // Extract the ID and transform to number
+        map(params: ParamMap => {
+            const id: string | null = params.get("id");
+            this.caseId = id ? Number(id) : 0;
+            return this.caseId;
+        }),
+        // Use switchMap to switch to api call as observable
+        switchMap(id: number => {
+            return concat(
+                of(null),                              // force the caseDetailsObs to emit a null on URL change
+                this.caseService.getDetailsForCase(id) // Emit the data once the API returns, forcing *ngIf in component html to rerender
+                );
+        }
+}
+
+
+
+concat returns the first observable, THEN the second.
+of(null) immediately clears the UI so the old case disappears
