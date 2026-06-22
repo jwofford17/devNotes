@@ -1,0 +1,51 @@
+The entry points
+
+What goes here?
+    Only the HTTP layer
+        Routing
+        Request parsing
+        Basic HTTP validation
+        Response Mapping
+        Status codes
+
+Notes:
+    Keep methods skinny! Think of them as traffic cops - receive data, hand it to a service, and return the result
+    Use explicit HTTP verbs
+        Rely on @GetMapping, @PostMapping instead of generic @RequestMapping
+    Leverage DTOs
+        Never accept or return database entities directly here
+    Global Exception Handling
+        Use a @ControllerAdvice or @RestControllerAdvice class to catch exceptions and format error responses
+
+General setup
+
+    @Controller
+    public class WorkflowController {
+
+        Either resource injection or constructor injection necessary dependencies
+
+        @Resource
+        private WorkflowService workflowService;
+
+        or
+
+        // Notice the final keyword here, one benefit of constructor injection is
+        // the ability to make an immutable dependency injection
+        private final WorkflowService workflowService;
+        public WorkflowController(WorkflowService aWorkflowService) {
+            this.workflowService = aWorkflowService;
+        }
+
+
+        @RequestMapping(value = "/api/v1/workflow/list", method = RequestMethod.GET, produces = "application/json")
+        @PreAuthorize("hasAnyAuthority('ABILITY_WORKFLOW')")
+        or
+        @PreAuthorize("hasAnyRole('ROLE_SYS_ADMIN')")
+        public ResponseEntity<Object> getAllWorkflows() {
+            List<WorkflowGridDTO> workflows = workflowService.getAllWorkflows();
+
+            return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(workflows);
+        }
+    }

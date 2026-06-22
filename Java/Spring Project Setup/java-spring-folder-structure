@@ -1,0 +1,30 @@
+project-name
+    docs (if applicable)
+    src
+        main
+            java
+                com
+                    package-name
+                        config
+                            Database/datasource configuration
+                        controllers
+                            if exposing endpoints in particular project, they should go here
+                            organize by domain
+                        models
+                            DTOs and data shape classes
+                        repositories
+                            Not always used, but in Spring + Hibernate setup this is commonly where interactions with db go
+                        security
+
+                        services
+                            Business logic, if no repositories this is also where db interactions go
+                            Organize by domain
+                        utilities
+                            Helper scripts
+                            Local constants
+            resources
+                application.yaml Default profile
+                    Project variables go here
+            image_resources
+                application.yaml
+                    Setting up Kubernetes/Docker deployment of app

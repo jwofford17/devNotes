@@ -1,0 +1,16 @@
+A class is a runtime construct that can be instantiated and injected.
+    - Exists at runtime
+    - Can be instantiated
+    - Can use constructor-based dependency injection
+    - Has State
+    - Can implement interfaces
+    - More ceremony
+
+An object with behavior and possibly state
+
+When to use a class:
+    - You need lifecycle/state
+    - You need constructor dependency injection
+    - You want polymorphism or inheritance
+    - You're implementing a framework contract that expects instances
+    - You want to mock via class replacement

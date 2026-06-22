@@ -1,0 +1,21 @@
+(or /entities)
+The Blueprint
+
+What goes here?
+    Database schemas
+    ORM mappings (like JPA/Hibernate entities)
+    Data structures
+    Foundational data entities
+
+Notes:
+    Protect the identity
+        Avoid using the @Data from Lombok on JPA entities.
+            It overrides the equals(), hashCode(), and toString() in ways that can cause severe performance issues
+            or lazy-loading loops with relational mappings (@ManyToOne)
+            Use @Getter and @Setter explicitly instead
+    Encapsulate state changes
+        Instead of letting services arbitrarily change model fields via setters, use meaningful domain methods within the
+        entity for complex state changes (e.g. order.cancel() rather than order.setStatus("CANCELLED")
+    Validate at the Core
+        Use JPA/Jakarta constraints (e.g. @Column(nullable = false), @Size) directly on the fields to guarantee
+        data integrity at the persistence level

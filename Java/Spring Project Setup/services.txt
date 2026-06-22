@@ -1,0 +1,18 @@
+The Brains!
+
+What goes here?
+    Business logic
+    Transaction boundaries
+    Orchestration of repository calls
+    External API integrations
+    Rule verification
+
+Notes:
+    Transactio Management
+        This is where @Transactional belongs
+            Apply it at service layer to ensure business operations success or fail as an atomic unit
+    Framework agnostic logic
+        Try to keep core business logic independent of external protocols.
+        A service shouldn't know it is being called by a REST controller, a Kafka consumer, or a CLI tool
+    Throw Domain Exceptions
+        Instead of throwing low-level SQL exceptions upward, catch them and rethrow custom domain-specific exceptions

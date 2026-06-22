@@ -1,0 +1,224 @@
+<div class="flex flex-col h-full w-full p-2.5 relative">
+
+  <!-- TOP OF PAGE -->
+  <div class="flex flex-row justify-between">
+    <span class="text-2xl">
+      Advanced Stock Trade (Exercise 14A)
+    </span>
+    <div>
+      <button type="button" aria-label="Help" title="Help" mat-raised-button
+        (click)="this.onHelpClick()"
+      >Help</button>
+    </div>
+  </div>
+
+
+  <form [formGroup]="this.myForm" class="h-full w-full mt-5">
+    <!-- REST OF PAGE -->
+    <div class="flex flex-grow h-full w-full">
+
+      <div class="flex flex-col h-full w-full gap-y-2.5">
+
+
+
+        <!-- SYMBOL PORTION -->
+        <div class="flex flex-row w-full h-[100px]">
+
+
+          <!-- Symbol -->
+          <div class="w-1/3 h-full border-2 border-gray-300">
+
+
+            <div class="flex flex-row h-full gap-x-1.5 place-content-center items-center ">
+              <!-- Need to add wrapper div to have inner contents share items-end style-->
+              <div class="flex items-end gap-x-1.5">
+                <div>
+                  <span class="app-form-label">Symbol</span>
+                  <mat-form-field class="max-reduced-density w-[100px]" subscriptSizing="dynamic">
+                    <input matInput formControlName="symbol" aria-label="Symbol" title="Symbol"
+                           (keydown.enter)="this.quoteClicked()"
+                    >
+                  </mat-form-field>
+                </div>
+                <div class="flex items-end">
+                  <button type="button" aria-label="Quote" title="Quote" mat-raised-button
+                          (click)="this.quoteClicked()"
+                  >
+                    Quote
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+
+          <!-- Symbol Details -->
+          <div class="flex items-center h-full w-2/3 p-1 ">
+            <ng-container *ngIf="this.quote?.isSymbolValid">
+              <div class="flex flex-col w-full gap-y-2.5 border-2 border-blue-800 p-2.5">
+
+              <!-- TOP ROW -->
+              <div class="flex flex-row justify-between">
+                <span>{{this.quote.businessName}}</span>
+                <span>as of {{this.quote.asOfDate}}</span>
+              </div>
+
+              <!-- BOTTOM ROW -->
+              <div class="grid grid-cols-2 gap-2.5">
+
+                <div class="flex flex-row w-full justify-between">
+                  <span>Price:</span>
+                  <span>{{this.quote.currentPrice | currency:'USD':true:'1.1-2'}}</span>
+                </div>
+
+                <div class="flex flex-row w-full justify-between">
+                  <span>Prev Close:</span>
+                  <span>{{this.quote.previousClose | currency: 'USD':true:'1.1-2'}}</span>
+                </div>
+
+
+                <div class="flex flex-row w-full justify-between">
+                  <span>Volume:</span>
+                  <span>{{this.quote.volume | number}}</span>
+                </div>
+
+                <div class="flex flex-row w-full justify-between">
+                  <span>Day Range:</span>
+                  <span>{{this.quote.lowestDayRange | currency:'USD':true:'1.1-2'}} - {{this.quote.highestDayRange | currency:'USD':true:'1.1-2'}}</span>
+                </div>
+
+              </div>
+
+            </div>
+            </ng-container>
+          </div>
+
+        </div>
+
+
+        <!-- Form control portion -->
+        <div >
+
+          <!-- Div for Action Dropdown -->
+          <div class="flex flex-row w-full">
+
+            <div class="w-[250px]">
+              <span class="app-form-label">Action</span>
+              <ng-container *ngIf="(this.actionsObs | async) as actions">
+                <mat-form-field class="max-reduced-density" subscriptSizing="dynamic">
+                  <mat-select title="Action" aria-label="Action" formControlName="action">
+
+                    <ng-container *ngFor="let action of actions">
+                      <mat-option [value]=action.id>{{action.value}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+              </ng-container>
+            </div>
+
+
+            <div *ngIf="this.myForm.controls.action.value"  class="w-[250px]">
+              <span class="app-form-label">Quantity</span>
+              <mat-form-field class="max-reduced-density" subscriptSizing="dynamic">
+                <input aria-label="Quantity" title="Quantity" matInput formControlName="quantity">
+              </mat-form-field>
+            </div>
+
+          </div>
+
+
+
+          <!-- Div for Order Type Dropdown -->
+          <div class="flex flex-row w-full">
+
+            <div class="w-[250px]">
+              <span class="app-form-label">Order Type</span>
+              <ng-container *ngIf="(this.ordersObs | async) as orders">
+                <mat-form-field class="max-reduced-density" subscriptSizing="dynamic">
+                  <mat-select formControlName="orderType" title="Action" aria-label="Action">
+                    <ng-container *ngFor="let order of orders">
+                      <mat-option [value]=order.id>{{order.value}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+              </ng-container>
+            </div>
+
+
+            <div *ngIf="this.myForm.controls.orderType.value==202"  class="w-[250px]">
+              <span class="app-form-label">Limit Price</span>
+              <mat-form-field class="max-reduced-density" subscriptSizing="dynamic">
+                <input aria-label="Limit Price" title="Limit Price" matInput formControlName="limitPrice"
+                >
+              </mat-form-field>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="flex flex-row place-content-center gap-x-2.5 items-center">
+          <div>
+            <button type="button" aria-label="Reset" title="Reset" mat-raised-button
+            (click)="this.onResetClick()">
+              Reset
+            </button>
+          </div>
+
+          <div>
+            <button type="button" aria-label="Submit Order" title="Submit Order" mat-raised-button color="primary">
+              Submit Order
+            </button>
+          </div>
+
+          <div>
+            <a aria-label="Save for Later" title="Save for Later" class="text-blue-600 underline">
+              Save for Later
+            </a>
+          </div>
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- Help Container -->
+    <div class="flex flex-col h-full w-2/5 absolute top-0 right-0 collapsed-overlay bg-gray-200 p-2.5"
+        [ngClass]="{
+          'expanded-overlay': this.isHelpOpen,
+          'collapsed-overlay': !this.isHelpOpen
+        }"
+    >
+      <div class="flex flex-col h-full w-full gap-y=2.5">
+        <div class="flex flex-row justify-between">
+          <span class="text-xl">Help Contents</span>
+          <div>
+            <button aria-label="Close" title="Close"
+              (click)="this.onHelpClose()"
+            >
+              <i class="fa-solid fa-x"></i>
+            </button>
+          </div>
+        </div>
+
+
+        <div class="pl-1">
+          <li>You cannot buy fractional shares</li>
+          <li>You can buy fractional mutual funds</li>
+          <li>Limit Orders require a limit price</li>
+        </div>
+
+      </div>
+    </div>
+
+  </form>
+
+
+</div>

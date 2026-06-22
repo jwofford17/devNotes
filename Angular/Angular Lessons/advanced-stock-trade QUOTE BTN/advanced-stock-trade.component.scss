@@ -1,0 +1,14 @@
+//div {
+//  border: 1px black dashed;
+//}
+
+
+.expanded-overlay {
+  /* We use z-100 to have this div cover *OVER* any existing HTML */
+  @apply transition-all ease-in-out duration-500 opacity-100 z-50;
+}
+
+
+.collapsed-overlay {
+  @apply w-0 overflow-hidden transition-all ease-in-out duration-500 opacity-0;
+}

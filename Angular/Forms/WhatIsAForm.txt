@@ -1,0 +1,14 @@
+
+
+
+
+
+
+
+AbstractControl
+    - The base class for:
+        - FormControl
+        - FormGroup
+        - FormArray
+
+    - Angular always passed validators an AbstractControl

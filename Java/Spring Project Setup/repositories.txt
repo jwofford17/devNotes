@@ -1,0 +1,14 @@
+The Data Access Layer
+
+What goes here:
+    Direct database interactions, Spring Data interfaces, or custom JPQ/Native SQL queries
+
+Notes:
+    Keep Queries Local
+        Never leak raw SQL or complex database operations into the service layer
+        Leverage projection
+            If you onlyt need two columns from a massive table, use Spring Data Projections (interfaces or DTOs) instead
+            of fetching the entire entity structure
+        Query Naming Discipline
+            Rely on Spring Data's derived query methods for simple lookups (e.g. findByEmail) but pivot to explicit
+            @Query annotations for complex joins to keep method names readable

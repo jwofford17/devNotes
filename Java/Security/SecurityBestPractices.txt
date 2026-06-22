@@ -1,0 +1,22 @@
+Golden Rule: Secure By Default
+    Defense in Depth: Security should be handled at multiple layers (Network/Firewall, API Gateway, Controller Layer,
+    and Service Layer).
+        Never rely on client-side routing or UI hiding to secure an endpoint
+    Stateless over stateful
+        For modern APIs, prioritize stateless authentication (Tokes/JWTs) over stateful session management (HttpSession)
+        to ensure frictionless scaling
+
+
+
+controllers/
+    Enable Method Security
+        Ensure @EnableMethodSecurity is declared on a configuration class
+    Prefer Role/Authority checks
+        Keep checks generic
+        Use @PreAuthorize("hasRole('ADMIN')") or @PreAuthorize("hasAuthority('SCOPE_read')")
+    Dynamic Context Expression (SpEL)
+        You can check incoming parameters against the logged-in user context using Spring Expression Language (SpEL)
+            Example: @PreAuthorize(""#userId === authentication.principal.username") ensures users can only access their own data
+    Failing safe
+        If a controller method lacks a secuirty annotation, it shouldn't be open by default. Configure your global
+        SecurityFilterChain to deny all requests unless explicitly permitted or authenticated

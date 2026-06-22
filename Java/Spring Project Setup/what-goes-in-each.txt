@@ -1,0 +1,33 @@
+
+
+
+[Scenario A] I need to calculate a discount, update a balance, and send an email.
+    Where: SERVICES
+    Why: It requires orchestrating business rules and external actions.
+
+[Scenario B] I need to change a column name of define a many-to-one relationship.
+    Where: MODELS / ENTITIES
+    Why: This is structural data blueprinting
+
+[Scenario C] I need to define an endpoint URL, read a header, or return a 404.
+    Where: CONTROLLERS
+    Why: Thishandles the transport protocol (HTTP) and API contracts
+
+[Scenario D] I need to write a custom native SQL join query
+    Where: REPOSITORIES
+    Why: It directly interfaces with the data store.
+
+
+Triage Flowchart:
+
+1. Does it deal with HTTP, URLs, or JSON parsing?
+    Go to CONTROLLERS
+
+2. Does it enforce a rule, run calculations, or cross multiple tables
+    Go to SERVICES
+
+3. Does it describe what a table looks like in the database?
+    Go to MODELS
+
+4. Does it talk to the database directly?
+    Go to REPOSITORIES

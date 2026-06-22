@@ -1,0 +1,25 @@
+Use the Observable.subscribe to manually invoke REST call/Observable
+
+
+Use the .add to do what is essentially a finally block in Java
+Can do something in dialog if REST call fails (e.g. don't reload the grid)
+
+public quoteClicked() {
+    let restCallFinishedSuccessfully: boolean = false;
+
+    // Use subscribe to actually (manually) invoke the service, then use arrow function to get the result
+    // of the Observable, then you can set this.quote = result
+    this.quoteService.getQuote(this.myForm.controls.symbol.value).subscribe((aData: GetQuoteDetailsDTO) => {
+      this.quote = aData;
+      restCallFinishedSuccessfully = true;
+    }).add(() => {
+      // finally block
+      // called whether REST call succeeds or not
+      // can be used to 'stop spinner' if rest call fails
+
+      // can check restCallFinishedSuccessfully
+      if (!restCallFinishedSuccessfully) {
+        // do some special logic
+      }
+    })
+  }

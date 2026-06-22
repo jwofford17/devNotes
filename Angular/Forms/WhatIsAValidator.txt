@@ -1,0 +1,51 @@
+A validator is just a function that:
+    - Takes a form control
+    - Checks a rule
+    - Returns:
+        - null            ---> valid
+        - an error object ---> invalid
+
+ValidatorFn: Angluar's type for a validator function:
+    (control: AbstractControl) => ValidationErrors | null
+
+
+ValidationErrors is a type alias for: { [key: string]: any }
+    - Describes the error object Angular expects
+
+
+
+Example validator: Check for length of FormArray
+
+---------                    BEGIN VALIDATOR EXAMPLE                            -----------
+import {AbstractControl, FormArray, ValidationErrors, ValidatorFn} from "@angular/forms";
+
+
+export function minFormArrayLength(min: number): ValidatorFn {
+  // ValidationErrors is a type alias for: { [key: string]: any }
+  return (control: AbstractControl): ValidationErrors | null => {
+    // Ensure we are validating against a FormArray
+    if (!(control instanceof FormArray)) {
+      return null;
+    }
+
+    return control.length >= min
+      ? null
+      : {
+          minLengthArray: {
+            requiredLength: min,
+            actualLength: control.length
+          }
+      };
+  };
+}
+---------                    END VALIDATOR EXAMPLE                                 -----------
+
+This function does not validate anything yet!
+It:
+    - Accepts configuration (min - minimum length of FormArray that is acceptable)
+    - Returns a validator function
+
+This lets you write:
+    - minFormArrayLength(1)
+    - minFormArrayLength(3)
+each call created a validator configured differently

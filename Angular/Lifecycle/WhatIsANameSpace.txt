@@ -1,0 +1,17 @@
+A namespace is a compile-time organizational construct that groups related things under a name.
+    - Not instantiated
+    - No lifecycle
+    - No dependency injection
+    - Does not exist at runtime (after bundling)
+    - Purely namespacing to avoid name collisions
+    - Groups functions/constants/types
+
+A 'folder-like' wrapper inside a file
+
+
+When to use namespaces?
+    - You are grouping pure functions
+    - No state is needed
+    - You want zero runtime overhead
+    - You are using functional guards / resolvers
+    - You want simple composition
